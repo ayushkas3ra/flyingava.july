@@ -23,13 +23,13 @@
     <header class="sticky top-0 z-30 bg-white shadow-sm">
       <nav class="container mx-auto flex items-center justify-between px-4 py-4">
         <div class="flex items-center space-x-3">
-          <a href="/">
+          <a href="https://flying-ava.netlify.app/">
             <img src="logo.png" alt="FlyingAVA Logo" class="w-12 sm:w-16" />
           </a>
           <span class="text-xl font-extrabold text-indigo-600">FlyingAVA</span>
         </div>
         <ul class="hidden md:flex space-x-6 font-medium">
-          <li><a href="#" class="text-indigo-600 font-semibold">Home</a></li>
+          <li><a href="/" class="text-indigo-600 font-semibold">Home</a></li>
           <li><a href="aboutUs.html" class="hover:text-indigo-600">About Us</a></li>
           <li><a href="/#services" class="hover:text-indigo-600">Services</a></li>
           <li><a href="#contact" class="hover:text-indigo-600">Contact</a></li>
@@ -42,7 +42,7 @@
         </button>
       </nav>
       <div id="mobileMenu" class="hidden flex-col justify-between md:hidden px-6 pb-4 space-y-2">
-        <a href="#" class="text-indigo-600 font-semibold">Home</a>
+        <a href="/" class="text-indigo-600 font-semibold">Home</a>
         <a href="aboutUs.html" class="hover:text-indigo-600">About Us</a>
         <a href="/#services" class="hover:text-indigo-600">Services</a>
         <a href="#contact" class="hover:text-indigo-600">Contact</a>
@@ -64,8 +64,8 @@
               justify-between px-4 sm:px-6 lg:px-8">
     <!-- Text -->
     <div class="max-w-lg mt-10 lg:mt-50 text-black md:text-white">
-      <h1 class="text-4xl sm:text-3xl md:text-3xl lg:text-5xl font-extrabold mb-2 leading-tight">FLYINGAVA</h1>
-      <p class="text-2xl sm:text-2xl font-semibold mb-6">Dream higher, fly higher</p>
+      <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 leading-tight">FLYINGAVA</h1>
+      <p class="text-2xl sm:text-3xl font-semibold mb-6">Dream higher, fly higher</p>
       <p class="text-lg sm:text-xl mb-8">
         100&nbsp;kg‑payload autonomous drones bringing reliable logistics to the world's most
         challenging terrains.
@@ -307,66 +307,65 @@ structure</div>
 
     <!--  SCRIPTS  -->
     <script>
-      // Mobile nav toggle
-      const btn = document.getElementById('menuBtn');
-      const mobileMenu = document.getElementById('mobileMenu');
-      btn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-      // Simple accordion logic
-      document.getElementById('accordion').addEventListener('click', evt => {
-        const toggle = evt.target.closest('[data-toggle]');
-        if (!toggle) return;
-        const id = toggle.getAttribute('data-toggle');
-        const panel = document.querySelector(`[data-section="${id}"]`);
-        if (panel) {
-          panel.classList.toggle('hidden');
-          toggle.querySelector('svg').classList.toggle('rotate-180');
-        }
-      });
-
-      
+/* Everything waits until the DOM is ready */
 document.addEventListener('DOMContentLoaded', () => {
-  const slides = [
-    'slide1.jpeg',
-    'slide2.jpeg',
-    'slide3.jpeg',
-    'slide4.jpeg',
-    'slide5.jpeg',
-    'slide6.jpeg',
-    'slide7.jpeg'
-  ];
 
-  let idx = 0;
-  const heroBg = document.getElementById('heroBg');
+  /* ────── 1. Mobile‑nav toggle ────── */
+  const menuBtn    = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
 
-  setInterval(() => {
-    idx = (idx + 1) % slides.length;
-    /* fade‑out */
-    heroBg.classList.add('opacity-0');
-    setTimeout(() => {
-      heroBg.style.backgroundImage = `url('${slides[idx]}')`;
-      /* fade‑in */
-      heroBg.classList.remove('opacity-0');
-    }, 400);          // match half your transition time
-  }, 5000);           // change every 5 s
-});
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    // keep a11y state in sync
+    const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', !expanded);
+  });
 
-document.querySelectorAll('[data-toggle]').forEach(button => {
-    button.addEventListener('click', () => {
-      const section = button.getAttribute('data-toggle');
-      const target = document.querySelector(`[data-section="${section}"]`);
-      const icon = button.querySelector('svg');
+  /* ────── 2. Accordion ────── */
+  document.querySelectorAll('[data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id    = btn.getAttribute('data-toggle');
+      const panel = document.querySelector(`[data-section="${id}"]`);
+      if (!panel) return;
 
-      // Toggle section
-      target.classList.toggle('hidden');
+      const nowOpen = panel.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', nowOpen);
 
-      // Optionally rotate icon
-      icon.classList.toggle('rotate-180');
+      // rotate the chevron if present
+      btn.querySelector('svg')?.classList.toggle('rotate-180', nowOpen);
     });
   });
 
+  /* ────── 3. Hero‑background slideshow ────── */
+  const heroBg = document.getElementById('heroBg');
+  if (heroBg) {
+    const slides = [
+      'slide1.jpeg',
+      'slide2.jpeg',
+      'slide3.jpeg',
+      'slide4.jpeg',
+      'slide5.jpeg',
+      'slide6.jpeg',
+      'slide7.jpeg'
+    ];
+    let idx = 0;
 
+    setInterval(() => {
+      idx = (idx + 1) % slides.length;
 
-    </script>
+      /* fade‑out */
+      heroBg.classList.add('opacity-0');
+
+      setTimeout(() => {
+        heroBg.style.backgroundImage = `url('${slides[idx]}')`;
+        /* fade‑in */
+        heroBg.classList.remove('opacity-0');
+      }, 350);      // half of your transition duration (≈700 ms)
+    }, 5000);       // change every 5 s
+  }
+
+}); /* DOMContentLoaded */
+</script>
+
   </body>
 </html>
