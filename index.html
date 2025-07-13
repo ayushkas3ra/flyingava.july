@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlyingAVA Tech Pvt Ltd</title>
+    <title>FlyingAVA</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" href="output.css">
     <script src="script.js"></script>
@@ -43,7 +43,7 @@
       </nav>
       <div id="mobileMenu" class="hidden flex-col justify-between md:hidden px-6 pb-4 space-y-2">
         <a href="#" class="text-indigo-600 font-semibold">Home</a>
-        <a href="#" class="hover:text-indigo-600">About Us</a>
+        <a href="aboutUs.html" class="hover:text-indigo-600">About Us</a>
         <a href="/#services" class="hover:text-indigo-600">Services</a>
         <a href="#contact" class="hover:text-indigo-600">Contact</a>
       </div>
@@ -58,14 +58,14 @@
        style="background-image:url('slide1.jpeg');">
   </div>
   <!-- Dark overlay for readability -->
-  <!-- <div class="absolute inset-0 bg-black/40"></div> -->
+  <div class="absolute inset-0 bg-black/40"></div>
 
   <div class="relative z-10 container mx-auto flex flex-col-reverse lg:flex-row items-center
               justify-between px-4 sm:px-6 lg:px-8">
     <!-- Text -->
     <div class="max-w-lg mt-10 lg:mt-50 text-black md:text-white">
-      <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 leading-tight">FLYINGAVA</h1>
-      <p class="text-2xl sm:text-3xl font-semibold mb-6">Dream higher, fly higher</p>
+      <h1 class="text-4xl sm:text-3xl md:text-3xl lg:text-5xl font-extrabold mb-2 leading-tight">FLYINGAVA</h1>
+      <p class="text-2xl sm:text-2xl font-semibold mb-6">Dream higher, fly higher</p>
       <p class="text-lg sm:text-xl mb-8">
         100&nbsp;kg‑payload autonomous drones bringing reliable logistics to the world's most
         challenging terrains.
@@ -350,6 +350,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 400);          // match half your transition time
   }, 5000);           // change every 5 s
 });
+
+document.querySelectorAll('[data-toggle]').forEach(button => {
+    button.addEventListener('click', () => {
+      const section = button.getAttribute('data-toggle');
+      const target = document.querySelector(`[data-section="${section}"]`);
+      const icon = button.querySelector('svg');
+
+      // Toggle section
+      target.classList.toggle('hidden');
+
+      // Optionally rotate icon
+      icon.classList.toggle('rotate-180');
+    });
+  });
+
 
 
     </script>
